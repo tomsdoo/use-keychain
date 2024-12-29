@@ -16,7 +16,7 @@ export class KeychainEntry {
       serviceParams,
       this.keychainData.keychain,
     ]
-      .filter(s => s !== "")
+      .filter((s) => s !== "")
       .join(" ");
   }
   get findGenericPasswordOnlyPasswordCommand() {

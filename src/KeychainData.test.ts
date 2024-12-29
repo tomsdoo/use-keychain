@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import text from "@@/fixtures/dump-keychain-text.log?raw";
 import { parseKeychainDump } from "@/KeychainData";
+import text from "@@/fixtures/dump-keychain-text.log?raw";
+import { describe, expect, it } from "vitest";
 
 describe("parseKeychainDump()", () => {
   it("will parse correctly", () => {

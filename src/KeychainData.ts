@@ -10,7 +10,7 @@ export function parseKeychainDump(result: string) {
   let keychain = "";
   let account = "";
   let service = "";
-  lines.forEach((line) => {
+  for (const line of lines) {
     const parsedKeychain = tryParseKeychain(line);
     if (parsedKeychain != null) {
       if (keychain !== "") {
@@ -23,21 +23,21 @@ export function parseKeychainDump(result: string) {
         service = "";
       }
       keychain = parsedKeychain;
-      return;
+      continue;
     }
 
     const parsedAccount = tryParseAccount(line);
     if (parsedAccount != null) {
       account = parsedAccount;
-      return;
+      continue;
     }
 
     const parsedService = tryParseService(line);
     if (parsedService != null) {
       service = parsedService;
-      return;
+      // continue; // no need to continue here now
     }
-  });
+  }
 
   keychainEntries.push({
     keychain,
@@ -47,7 +47,6 @@ export function parseKeychainDump(result: string) {
 
   return keychainEntries;
 }
-
 
 function tryParseKeychain(line: string) {
   const isKeychainLine = /^keychain:/.test(line);
@@ -63,7 +62,7 @@ function tryParseAccount(line: string) {
     return null;
   }
   return line
-    .replace(/^(\s+"acct".+=)(.+)(\s*)$/, ($0,$1,$2) => $2)
+    .replace(/^(\s+"acct".+=)(.+)(\s*)$/, ($0, $1, $2) => $2)
     .replace(/^"/, "")
     .replace(/"$/, "");
 }
@@ -74,7 +73,7 @@ function tryParseService(line: string) {
     return null;
   }
   return line
-    .replace(/^(\s+"svce".+=)(.+)(\s*)$/, ($0,$1,$2) => $2)
+    .replace(/^(\s+"svce".+=)(.+)(\s*)$/, ($0, $1, $2) => $2)
     .replace(/^"/, "")
     .replace(/"$/, "");
 }

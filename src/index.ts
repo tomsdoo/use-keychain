@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-import { Command } from "commander";
-import { exec } from "child_process";
-import { parseKeychainDump } from "@/KeychainData";
+import { exec } from "node:child_process";
 import { start as startRepl } from "node:repl";
-import { KeychainEntry } from "@/KeychainEntry";
 import { inspect as utilInspect } from "node:util";
+import { parseKeychainDump } from "@/KeychainData";
+import { KeychainEntry } from "@/KeychainEntry";
 import { version } from "@@/package.json";
+import { Command } from "commander";
 
 function execute(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -21,21 +21,19 @@ function execute(cmd: string): Promise<string> {
 
 const program = new Command();
 
-program
-  .name("use-keychain")
-  .description("keychain utility")
-  .version(version);
+program.name("use-keychain").description("keychain utility").version(version);
 
-program.command("list-entries")
+program
+  .command("list-entries")
   .description("list entries")
   .option("--format <format>", "json | table", "json")
   .action(async (options: { format: string }) => {
-    const result = await execute(`security dump-keychain`).catch(e => null);
+    const result = await execute("security dump-keychain").catch((e) => null);
     if (result == null) {
       return;
     }
     const entries = parseKeychainDump(result);
-    switch(options.format) {
+    switch (options.format) {
       case "table": {
         console.table(entries);
         break;
@@ -47,50 +45,51 @@ program.command("list-entries")
     }
   });
 
-program.command("list-services")
+program
+  .command("list-services")
   .description("list services")
   .action(async () => {
-    const result = await execute(`security dump-keychain`).catch(e => null);
+    const result = await execute("security dump-keychain").catch(() => null);
     if (result == null) {
       return;
     }
     const entries = parseKeychainDump(result);
-    Array.from(new Set(
-      entries
-        .map(({ service }) => service)
-    ))
-      .filter(service => service !== "<NULL>" && service !== "")
-      .forEach(service => {
-        console.log(service);
-      });
+    const uniqueServices = Array.from(
+      new Set(entries.map(({ service }) => service)),
+    ).filter((service) => service !== "<NULL>" && service !== "");
+    for (const service of uniqueServices) {
+      console.log(service);
+    }
   });
 
-program.command("list-accounts")
+program
+  .command("list-accounts")
   .description("list accounts")
   .action(async () => {
-    const result = await execute(`security dump-keychain`).catch(e => null);
+    const result = await execute("security dump-keychain").catch(() => null);
     if (result == null) {
       return;
     }
     const entries = parseKeychainDump(result);
-    Array.from(new Set(
-      entries
-        .map(({ account }) => account)
-    ))
-      .filter(account => account !== "<NULL>" && account !== "")
-      .forEach(account => {
-        console.log(account);
-      });
+    const uniqueAccounts = Array.from(
+      new Set(entries.map(({ account }) => account)),
+    ).filter((account) => account !== "<NULL>" && account !== "");
+    for (const account of uniqueAccounts) {
+      console.log(account);
+    }
   });
 
-program.command("repl")
+program
+  .command("repl")
   .description("go into repl")
   .action(async () => {
-    const result = await execute(`security dump-keychain`).catch(e => null);
+    const result = await execute("security dump-keychain").catch((e) => null);
     if (result == null) {
       return;
     }
-    globalThis.keychainEntries = parseKeychainDump(result).map(data => new KeychainEntry(data));
+    globalThis.keychainEntries = parseKeychainDump(result).map(
+      (data) => new KeychainEntry(data),
+    );
 
     const options = Intl.DateTimeFormat().resolvedOptions();
     const formatter = new Intl.DateTimeFormat(options.locale, {
@@ -103,10 +102,10 @@ program.command("repl")
     }
     const server = startRepl({
       prompt: makePrompt(),
-      writer(obj: any) {
+      writer(obj: unknown) {
         server.setPrompt(makePrompt());
         return utilInspect(obj);
-      }
+      },
     });
   });
 

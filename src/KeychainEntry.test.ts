@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
 import { KeychainEntry } from "@/KeychainEntry";
+import { describe, expect, it, vi } from "vitest";
 
 describe("KeychainEntry", () => {
   describe("findGenericPasswordComand", () => {
@@ -32,7 +32,10 @@ describe("KeychainEntry", () => {
         "security find-generic-password dummyKeychain",
       ],
     ])("%s", (name, keychainData, expectedCommand) => {
-      expect(new KeychainEntry(keychainData)).toHaveProperty("findGenericPasswordCommand", expectedCommand);
+      expect(new KeychainEntry(keychainData)).toHaveProperty(
+        "findGenericPasswordCommand",
+        expectedCommand,
+      );
     });
   });
 
@@ -43,7 +46,11 @@ describe("KeychainEntry", () => {
         account: "",
         service: "",
       });
-      vi.spyOn(keychainEntry, "findGenericPasswordCommand", "get").mockReturnValue("dummyCommand");
+      vi.spyOn(
+        keychainEntry,
+        "findGenericPasswordCommand",
+        "get",
+      ).mockReturnValue("dummyCommand");
       expect(keychainEntry).toHaveProperty(
         "findGenericPasswordOnlyPasswordCommand",
         "dummyCommand -w",

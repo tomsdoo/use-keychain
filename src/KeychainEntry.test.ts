@@ -11,7 +11,7 @@ describe("KeychainEntry", () => {
           account: "dummyAccount",
           service: "dummyService",
         },
-        "security find-generic-password -a dummyAccount -s dummyService dummyKeychain",
+        'security find-generic-password -a "dummyAccount" -s "dummyService" dummyKeychain',
       ],
       [
         "with account, without service",
@@ -20,7 +20,7 @@ describe("KeychainEntry", () => {
           account: "dummyAccount",
           service: "",
         },
-        "security find-generic-password -a dummyAccount dummyKeychain",
+        'security find-generic-password -a "dummyAccount" dummyKeychain',
       ],
       [
         "without account, without service",
@@ -53,7 +53,7 @@ describe("KeychainEntry", () => {
       ).mockReturnValue("dummyCommand");
       expect(keychainEntry).toHaveProperty(
         "findGenericPasswordOnlyPasswordCommand",
-        "dummyCommand -w",
+        "security find-generic-password -w dummyKeychain",
       );
     });
   });

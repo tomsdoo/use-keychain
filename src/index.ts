@@ -4,6 +4,7 @@ import { start as startRepl } from "node:repl";
 import { inspect as utilInspect } from "node:util";
 import { parseKeychainDump } from "@/KeychainData";
 import { KeychainEntry } from "@/KeychainEntry";
+import { VALUE_EXPRESSIONS } from "@/constants";
 import { version } from "@@/package.json";
 import { Command } from "commander";
 
@@ -19,6 +20,14 @@ function execute(cmd: string): Promise<string> {
   });
 }
 
+async function dumpKeychain() {
+  const result = await execute("security dump-keychain").catch(() => null);
+  if (result == null) {
+    return [];
+  }
+  return parseKeychainDump(result);
+}
+
 const program = new Command();
 
 program.name("use-keychain").description("keychain utility").version(version);
@@ -28,11 +37,7 @@ program
   .description("list entries")
   .option("--format <format>", "json | table", "json")
   .action(async (options: { format: string }) => {
-    const result = await execute("security dump-keychain").catch((e) => null);
-    if (result == null) {
-      return;
-    }
-    const entries = parseKeychainDump(result);
+    const entries = await dumpKeychain();
     switch (options.format) {
       case "table": {
         console.table(entries);
@@ -49,14 +54,10 @@ program
   .command("list-services")
   .description("list services")
   .action(async () => {
-    const result = await execute("security dump-keychain").catch(() => null);
-    if (result == null) {
-      return;
-    }
-    const entries = parseKeychainDump(result);
+    const entries = await dumpKeychain();
     const uniqueServices = Array.from(
       new Set(entries.map(({ service }) => service)),
-    ).filter((service) => service !== "<NULL>" && service !== "");
+    ).filter((service) => service !== VALUE_EXPRESSIONS.NULL && service !== "");
     for (const service of uniqueServices) {
       console.log(service);
     }
@@ -66,14 +67,10 @@ program
   .command("list-accounts")
   .description("list accounts")
   .action(async () => {
-    const result = await execute("security dump-keychain").catch(() => null);
-    if (result == null) {
-      return;
-    }
-    const entries = parseKeychainDump(result);
+    const entries = await dumpKeychain();
     const uniqueAccounts = Array.from(
       new Set(entries.map(({ account }) => account)),
-    ).filter((account) => account !== "<NULL>" && account !== "");
+    ).filter((account) => account !== VALUE_EXPRESSIONS.NULL && account !== "");
     for (const account of uniqueAccounts) {
       console.log(account);
     }
@@ -83,13 +80,8 @@ program
   .command("repl")
   .description("go into repl")
   .action(async () => {
-    const result = await execute("security dump-keychain").catch((e) => null);
-    if (result == null) {
-      return;
-    }
-    globalThis.keychainEntries = parseKeychainDump(result).map(
-      (data) => new KeychainEntry(data),
-    );
+    const entries = await dumpKeychain();
+    globalThis.keychainEntries = entries.map((data) => new KeychainEntry(data));
 
     const options = Intl.DateTimeFormat().resolvedOptions();
     const formatter = new Intl.DateTimeFormat(options.locale, {

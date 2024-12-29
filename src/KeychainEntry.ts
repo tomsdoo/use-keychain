@@ -1,12 +1,17 @@
 import type { KeychainData } from "@/KeychainData";
+import { VALUE_EXPRESSIONS } from "@/constants";
 
 export class KeychainEntry {
   constructor(public keychainData: KeychainData) {}
   get findGenericPasswordCommand() {
-    const accountParams = ["<NULL>", ""].includes(this.keychainData.account)
+    const accountParams = [VALUE_EXPRESSIONS.NULL, ""].includes(
+      this.keychainData.account,
+    )
       ? ""
       : `-a ${this.keychainData.account}`;
-    const serviceParams = ["<NULL>", ""].includes(this.keychainData.service)
+    const serviceParams = [VALUE_EXPRESSIONS.NULL, ""].includes(
+      this.keychainData.service,
+    )
       ? ""
       : `-s ${this.keychainData.service}`;
     return [

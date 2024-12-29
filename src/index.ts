@@ -1,24 +1,12 @@
 #!/usr/bin/env node
-import { exec } from "node:child_process";
 import { start as startRepl } from "node:repl";
 import { inspect as utilInspect } from "node:util";
 import { parseKeychainDump } from "@/KeychainData";
 import { KeychainEntry } from "@/KeychainEntry";
+import { execute } from "@/command-execution";
 import { VALUE_EXPRESSIONS } from "@/constants";
 import { version } from "@@/package.json";
 import { Command } from "commander";
-
-function execute(cmd: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    exec(cmd, (err, stdout, stderr) => {
-      if (err == null) {
-        resolve(stdout);
-      } else {
-        reject(stderr);
-      }
-    });
-  });
-}
 
 async function dumpKeychain() {
   const result = await execute("security dump-keychain").catch(() => null);

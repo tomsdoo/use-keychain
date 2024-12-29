@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "tomsdoo",
@@ -22,6 +22,7 @@
     "@types/node": "22.10.2",
     "tsup": "8.3.5",
     "tsx": "4.19.2",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "vitest": "2.1.8"
   }
 }

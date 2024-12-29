@@ -1,0 +1,76 @@
+keychain: "dummy-keychain-path"
+version: 512
+class: "genp"
+attributes:
+    "acct"<blob>="dummyAccount"
+    "cdat"<timedate>=0x00000000000000000000000000000000  "20201122334455Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x00000000000000000000000000000000  "20201122334455Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "scrp"<sint32>=<NULL>
+    "svce"<blob>="dummyService with account"
+    "type"<uint32>=<NULL>
+keychain: "dummy-keychain-path"
+version: 512
+class: "genp"
+attributes:
+    "acct"<blob>=<NULL>
+    "cdat"<timedate>=0x00000000000000000000000000000000  "20201122334455Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x00000000000000000000000000000000  "20201122334455Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "scrp"<sint32>=<NULL>
+    "svce"<blob>="dummyService without account"
+    "type"<uint32>=<NULL>
+keychain: "dummy-keychain-path"
+version: 512
+class: "genp"
+attributes:
+    "acct"<blob>=<NULL>
+    "cdat"<timedate>=0x00000000000000000000000000000000  "20201122334455Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x00000000000000000000000000000000  "20201122334455Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "scrp"<sint32>=<NULL>
+    "svce"<blob>=<NULL>
+    "type"<uint32>=<NULL>
+keychain: "dummy-keychain-path"
+version: 512
+class: "inet"
+attributes:
+    "acct"<blob>="dummyAccountInet"
+    "atyp"<blob>="dummyAtyp"
+    "cdat"<timedate>=0x00000000000000000000000000000000  "20201122334455Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x00000000000000000000000000000000  "20201122334455Z\000"
+    "nega"<sint32>=<NULL>
+    "path"<blob>=<NULL>
+    "port"<uint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "sdmn"<blob>=<NULL>
+    "srvr"<blob>="dummyServer"
+    "type"<uint32>=<NULL>

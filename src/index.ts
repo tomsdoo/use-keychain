@@ -89,7 +89,22 @@ program.command("repl")
       return;
     }
     globalThis.keychainEntries = parseKeychainDump(result).map(data => new KeychainEntry(data));
-    startRepl();
+
+    const options = Intl.DateTimeFormat().resolvedOptions();
+    const formatter = new Intl.DateTimeFormat(options.locale, {
+      dateStyle: "medium",
+      timeStyle: "medium",
+      timeZone: options.timeZone,
+    });
+    function makePrompt() {
+      return `use-keychain ${formatter.format(new Date())} > `;
+    }
+    const server = startRepl({
+      prompt: makePrompt(),
+    });
+    server.addListener("line", () => {
+      server.setPrompt(makePrompt());
+    });
   });
 
 program.parse();

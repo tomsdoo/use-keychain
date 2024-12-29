@@ -4,6 +4,7 @@ import { exec } from "child_process";
 import { parseKeychainDump } from "@/KeychainData";
 import { start as startRepl } from "node:repl";
 import { KeychainEntry } from "@/KeychainEntry";
+import { inspect as utilInspect } from "node:util";
 
 function execute(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -101,9 +102,10 @@ program.command("repl")
     }
     const server = startRepl({
       prompt: makePrompt(),
-    });
-    server.addListener("line", () => {
-      server.setPrompt(makePrompt());
+      writer(obj: any) {
+        server.setPrompt(makePrompt());
+        return utilInspect(obj);
+      }
     });
   });
 

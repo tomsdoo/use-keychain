@@ -5,6 +5,7 @@ import { parseKeychainDump } from "@/KeychainData";
 import { start as startRepl } from "node:repl";
 import { KeychainEntry } from "@/KeychainEntry";
 import { inspect as utilInspect } from "node:util";
+import { version } from "@@/package.json";
 
 function execute(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -23,7 +24,7 @@ const program = new Command();
 program
   .name("use-keychain")
   .description("keychain utility")
-  .version("0.1.0");
+  .version(version);
 
 program.command("list-entries")
   .description("list entries")
